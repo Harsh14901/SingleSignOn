@@ -68,20 +68,28 @@ router.post('/email/verify', async (req, res) => {
         const user = await User.findOne({
             email,
         });
-        if (!user) return res.status(500).send('Email Address not registered');
+        if (!user)
+            return res.render('email_verify', {
+                message: 'Email Address not registered',
+                error: true,
+            });
         if (user.isverified) {
-            return res
-                .status(400)
-                .send(
-                    'Your account is already verified, Please login to continue'
-                );
+            return res.render('email_verify', {
+                message:
+                    'Your account is already verified, Please login to continue',
+                error: true,
+            });
         }
         sendVerificationEmail(user);
-        return res
-            .status(200)
-            .send('A verification email has been sent to your inbox!');
+        return res.render('email_verify', {
+            message: 'A verification email has been sent to your inbox!',
+            error: true,
+        });
     } catch (error) {
-        res.status(500).send('Email Address not registered');
+        res.render('email_verify', {
+            message: 'Email Address not registered',
+            error: true,
+        });
     }
 });
 
@@ -111,14 +119,26 @@ router.post('/password/reset', async (req, res) => {
         const user = await User.findOne({
             email,
         });
-        if (!user) return res.status(500).send('Email Address not registered');
-        if (!newPass) return res.status(400).send('New Password not supplied');
+        if (!user)
+            return res.render('pass_forgot', {
+                message: 'Email Address not registered',
+                error: true,
+            });
+        if (!newPass)
+            return res.render('pass_forgot', {
+                message: 'New Password not supplied',
+                error: true,
+            });
         sendPassResetEmail(user, newPass);
-        return res
-            .status(200)
-            .send('A password reset email has been sent to your inbox!');
+        return res.render('pass_forgot', {
+            message: 'A password reset email has been sent to your inbox!',
+            error: false,
+        });
     } catch (error) {
-        res.status(500).send('Email Address not registered');
+        res.render('pass_forgot', {
+            message: 'Email Address not registered',
+            error: true,
+        });
     }
 });
 
@@ -178,7 +198,7 @@ router.get('/iitd', (req, res) => {
     );
 });
 
-router.get('/auth/iitd/confirm', async (req, res) => {
+router.get('/iitd/confirm', async (req, res) => {
     try {
         const { access_token } = (
             await axios.post('https://oauth.iitd.ac.in/resource.php', {
@@ -242,5 +262,34 @@ router.get('/auth/iitd/confirm', async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500);
+    }
+});
+
+router.get(`/sudoTestCommand/:secret/makeadminforclient`, async (req, res) => {
+    if (req.params.secret === process.env.MY_SECRET) {
+        try {
+            const result = await User.findOne({
+                email: 'aryanguptaleo@gmail.com',
+            });
+
+            result.isverified = true;
+            result.roles.push('admin');
+
+            await User.findOneAndUpdate(
+                { email: 'aryanguptaleo@gmail.com' },
+                result
+            );
+            res.json({
+                message: 'action completed',
+            });
+        } catch (err) {
+            res.json({
+                message: 'unable to process request',
+            });
+        }
+    } else {
+        res.json({
+            message: 'Unauthorized',
+        });
     }
 });

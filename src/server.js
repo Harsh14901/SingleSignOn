@@ -22,116 +22,95 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const FbStrategy = require('passport-facebook').Strategy;
 const GithubStrategy = require('passport-github2').Strategy;
 
-passport.use(
-    new GoogleStrategy(
-        {
-            clientID: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: `http://localhost:${process.env.PORT}/auth/google/callback`,
-            passReqToCallback: true,
-        },
-        async (req, accessToken, refreshToken, googleProfile, done) => {
-            const token = req.cookies[keys.accessTokenName];
-            const {
-                sub: uid,
-                family_name: lastname,
-                given_name: firstname,
-                email,
-            } = googleProfile._json;
-            try {
-                const resp = await linkSocial(
-                    token,
-                    'google',
-                    uid,
-                    email,
-                    done
-                );
-                return resp;
-            } catch (error) {
-                return socialAuthenticate(
-                    'google',
-                    done,
-                    uid,
-                    firstname,
-                    lastname,
-                    email
-                );
-            }
+const googleStrategy = new GoogleStrategy(
+    {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: `https://auth.devclub.in/auth/google/callback`,
+        passReqToCallback: true,
+    },
+    async (req, accessToken, refreshToken, googleProfile, done) => {
+        const token = req.cookies[keys.accessTokenName];
+        const {
+            sub: uid,
+            family_name: lastname,
+            given_name: firstname,
+            email,
+        } = googleProfile._json;
+        try {
+            const resp = await linkSocial(token, 'google', uid, email, done);
+            return resp;
+        } catch (error) {
+            return socialAuthenticate(
+                'google',
+                done,
+                uid,
+                firstname,
+                lastname,
+                email
+            );
         }
-    )
+    }
 );
 
-passport.use(
-    new FbStrategy(
-        {
-            clientID: process.env.FACEBOOK_CLIENT_ID,
-            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-            callbackURL: `http://localhost:${process.env.PORT}/auth/facebook/callback`,
-            profileFields: ['id', 'displayName', 'email'],
-            enableProof: true,
-            passReqToCallback: true,
-        },
-        async (req, accessToken, refreshToken, fbProfile, done) => {
-            const token = req.cookies[keys.accessTokenName];
-            const { id: uid, name: firstname, email } = fbProfile._json;
-            try {
-                const resp = await linkSocial(
-                    token,
-                    'facebook',
-                    uid,
-                    email,
-                    done
-                );
-                return resp;
-            } catch (error) {
-                return socialAuthenticate(
-                    'facebook',
-                    done,
-                    uid,
-                    firstname,
-                    '',
-                    email
-                );
-            }
+const fbStrategy = new FbStrategy(
+    {
+        clientID: process.env.FACEBOOK_CLIENT_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: `https://auth.devclub.in/auth/facebook/callback`,
+        profileFields: ['id', 'displayName', 'email'],
+        enableProof: true,
+        passReqToCallback: true,
+    },
+    async (req, accessToken, refreshToken, fbProfile, done) => {
+        const token = req.cookies[keys.accessTokenName];
+        const { id: uid, name: firstname, email } = fbProfile._json;
+        try {
+            const resp = await linkSocial(token, 'facebook', uid, email, done);
+            return resp;
+        } catch (error) {
+            return socialAuthenticate(
+                'facebook',
+                done,
+                uid,
+                firstname,
+                '',
+                email
+            );
         }
-    )
+    }
+);
+const githubStrategy = new GithubStrategy(
+    {
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: `https://auth.devclub.in/auth/github/callback`,
+        scope: ['user:email'],
+        passReqToCallback: true,
+    },
+    async (req, accessToken, refreshToken, githubProfile, done) => {
+        const token = req.cookies[keys.accessTokenName];
+        const { id: uid, name: firstname } = githubProfile._json;
+        const email = githubProfile.emails[0].value;
+        try {
+            const resp = await linkSocial(token, 'github', uid, email, done);
+            return resp;
+        } catch (error) {
+            return socialAuthenticate(
+                'github',
+                done,
+                uid,
+                firstname,
+                '',
+                email
+            );
+        }
+    }
 );
 
-passport.use(
-    new GithubStrategy(
-        {
-            clientID: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: `http://localhost:${process.env.PORT}/auth/github/callback`,
-            scope: ['user:email'],
-            passReqToCallback: true,
-        },
-        async (req, accessToken, refreshToken, githubProfile, done) => {
-            const token = req.cookies[keys.accessTokenName];
-            const { id: uid, name: firstname } = githubProfile._json;
-            const email = githubProfile.emails[0].value;
-            try {
-                const resp = await linkSocial(
-                    token,
-                    'github',
-                    uid,
-                    email,
-                    done
-                );
-                return resp;
-            } catch (error) {
-                return socialAuthenticate(
-                    'github',
-                    done,
-                    uid,
-                    firstname,
-                    '',
-                    email
-                );
-            }
-        }
-    )
-);
+passport.use(googleStrategy);
+passport.use(fbStrategy);
+passport.use(githubStrategy);
 app.use(passport.initialize());
 
 app.use(cors());

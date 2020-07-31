@@ -6,8 +6,8 @@
 .formContainer {
     width: 40%;
     height: auto;
-    padding: 20px;
-    min-width: 350px;
+    padding-top: 20px;
+    min-width: 300px;
     margin: auto;
 }
 .formContainer form {
@@ -22,7 +22,7 @@
 .inputRow {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     grid-column-gap: 20px;
 }
 

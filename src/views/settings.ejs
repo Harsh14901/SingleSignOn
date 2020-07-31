@@ -5,7 +5,7 @@
     <%- include('partials/assets'); %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/settings.css" />
-    <title>Settings</title>
+    <title>CASI | Settings</title>
     <script>
         $(document).ready(() => {
             $('.tab-item').click(function () {
@@ -13,6 +13,12 @@
                 $(this).addClass('active');
                 $('.tab-content').hide();
                 $(`#${$(this).data('toggle')}`).fadeIn(200);
+            });
+
+            $('#kerbTip').hover(() => {
+                $('#kerbInfo').fadeIn(300);
+            }, () => {
+                $('#kerbInfo').fadeOut(100);
             });
 
             $('#kerbTip').hover(() => {

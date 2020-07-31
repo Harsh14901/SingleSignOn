@@ -25,8 +25,12 @@ router.post('/', async (req, res) => {
 
 router.post('/logout', (req, res) => {
     try {
-        res.clearCookie(accessTokenName);
-        res.clearCookie(refreshTokenName);
+        res.clearCookie(accessTokenName, {
+            domain: 'devclub.in',
+        });
+        res.clearCookie(refreshTokenName, {
+            domain: 'devclub.in',
+        });
         return res.json({
             err: false,
             message: 'Logged out successfully',
@@ -48,7 +52,9 @@ router.post('/delete', async (req, res) => {
         });
         await user.remove();
 
-        res.clearCookie(accessTokenName);
+        res.clearCookie(accessTokenName, {
+            domain: 'devclub.in',
+        });
         return res.status(200).json({
             err: false,
             msg: 'Account Deleted Successfully',

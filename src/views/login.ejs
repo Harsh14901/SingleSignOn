@@ -5,15 +5,14 @@
     <%- include('partials/assets'); %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/login.css" />
-    <title>Login</title>
+    <title>CASI | Login</title>
     <script>
         $(document).ready(() => {
-
-            if ($('.messageContainer').length > 0) {
-                setTimeout(() => {
-                    $('.messageContainer').css('opacity', '0');
-                }, 3000);
-            }
+            // if ($('.messageContainer').length > 0) {
+            //     setTimeout(() => {
+            //         $('.messageContainer').fadeOut(200);
+            //     }, 3000);
+            // }
             let serviceURL = '';
             if ($('#serviceURL').length > 0) {
                 serviceURL = $('#serviceURL').html();
@@ -29,7 +28,6 @@
                 window.location.href = `/redirecting${window.location.search}`;
             }
             getUserDetails(getUserDetailsSuccess, () => { });
-
         })
     </script>
 </head>
@@ -42,10 +40,9 @@
         </div>
         <div class="miniLine"></div>
         <div class="formContainer">
-
-            <form action="" method="POST">
+            <form action="/user/login" method="POST">
                 <div class="input-group">
-                    <input type="email" name="email" required />
+                    <input type="email" name="email" required autofocus />
                     <label for="email">E-Mail</label>
                     <span class="helpText">Please enter a valid E-Mail</span>
                 </div>
@@ -64,30 +61,32 @@
                 <button type="submit" class="btn">
                     Let's go
                 </button>
-
-                <p class="textParagraph">
-                    <i>Don't have an account?
-                        <span id="signupBtn"><a href="/user/register">Signup...</a></span>
-                    </i>
-                </p>
             </form>
-
-            <% if (message !== '') { %>
-            <% if (error) { %>
-            <div class="messageContainer error">
-                <% } else { %>
-                <div class="messageContainer success">
-                    <% } %>
-                    <%= message %>
-                </div>
+        </div>
+        <% if (message !== '') { %>
+        <% if (error) { %>
+        <div class="messageContainer error">
+            <% } else { %>
+            <div class="messageContainer success">
                 <% } %>
+                <%- message %>
+            </div>
+            <% } %>
+            <div class="btnRow">
+                <a href="/auth/password/reset" class="btn invertBtn">Forgot Password?</a>
+                <a href="/user/register" class="btn invertBtn">Signup now!</a>
             </div>
             <div class="socialLoginContainer">
                 <fieldset>
                     <legend>Or Sign in With</legend>
                     <div class="kerbLogin">
                         <h5>Kerberos (For IITD Students only)</h2>
-                            <a class="btn kerberosBtn" href="/auth/iitd/"><img src="/images/iitdlogo.png" alt="iitdLogin"></a>
+                            <a style="pointer-events: none; border-color: black;" class="btn kerberosBtn">
+                                <img style="filter: grayscale(1);" src="/images/iitdlogo.png" alt="iitdLogin">
+                                <div class="tooltip">
+                                    Coming soon
+                                </div>
+                            </a>
                     </div>
                     <div class="icon-container">
                         <a class="btn oauthBtn" id="googleLogin" href="/auth/google/"><img src="/images/Google.svg" alt=""></a>

@@ -1,126 +1,174 @@
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <%- include('../partials/assets'); %>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/settings.css" />
+        <link rel="stylesheet" href="/css/client.css" />
+        <title>CASI | Client Registration</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <%- include('../partials/assets'); %>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/settings.css" />
-    <link rel="stylesheet" href="/css/client.css">
-    <title>Client Registration</title>
-</head>
-
-<body>
-    <%- include('../partials/header'); %>
-    <div class="rootContainer">
-        <div class="pageTitle">
-            Manage Client
-            <div class="miniLine"></div>
-        </div>
-        <% if(client_data) { %>
-        <div class="formContainer">
-            <form action="/client/<%= client_data.id %>/update" method="POST" id="clientForm">
-                <div class="form-group">
-                    <legend>Basic Information
+    <body>
+        <%- include('../partials/header'); %>
+        <div class="rootContainer">
+            <div class="pageTitle">
+                Manage Client
+                <div class="miniLine"></div>
+            </div>
+            <% if(client_data) { %>
+            <div class="formContainer">
+                <form
+                    action="/client/<%= client_data.id %>/update"
+                    method="POST"
+                    id="clientForm"
+                >
+                    <div class="form-group">
+                        <legend>
+                            Basic Information
+                            <div class="longLine"></div>
+                        </legend>
+                        <span class="detailTitle">Domain Name</span>
+                        <input
+                            type="text"
+                            name="domain"
+                            id="domain"
+                            value="<%= client_data.domain %>"
+                        />
+                        <span class="detailTitle">Description</span>
+                        <textarea name="description" id="description">
+<%= client_data.description %></textarea
+                        >
+                    </div>
+                    <% if(roles.length > 0) { %>
+                    <div class="form-group">
+                        <legend>Custom Roles</legend>
                         <div class="longLine"></div>
-                    </legend>
-                    <span class="detailTitle">Domain Name</span>
-                    <input type="text" name="domain" id="domain" value="<%= client_data.domain %>" />
-                    <span class="detailTitle">Description</span>
-                    <textarea name="description" id="description"><%= client_data.description %></textarea>
-                </div>
-                <% if(roles.length > 0) { %>
-                <div class="form-group">
-                    <legend>Custom Roles</legend>
-                    <div class="longLine"></div>
-                    <% roles.forEach((role) => { %>
-                    <fieldset class="roleField">
-                        <legend><%= role.name %></legend>
-                        <label for="delete_roles[]" id="delCheckbox">Delete Role
-                            <input type="checkbox" name="delete_roles[]" value="<%= role.name %>">
-                        </label>
-                        <span class="detailTitle">Regular Expressions</span>
-                        <div class="longLine"></div>
-                        <div class="inline">
-                            <span class="detailTitle">First Name</span>
-                            <input type="text" name="custom_roles[<%= role.name %>][regex][firstname]" value="<%= role.regex.firstname %>">
-                        </div>
-                        <div class="inline">
-                            <span class="detailTitle">Last Name</span>
-                            <input type="text" name="custom_roles[<%= role.name %>][regex][lastname]" value="<%= role.regex.lastname %>">
-                        </div>
-                        <div class="inline">
-                            <span class="detailTitle">Entry Number</span>
-                            <input type="text" name="custom_roles[<%= role.name %>][regex][entry_num]" value="<%= role.regex.entry_num %>">
-                        </div>
-                        <div class="inline">
-                            <span class="detailTitle">Username</span>
-                            <input type="text" name="custom_roles[<%= role.name %>][regex][username]" value="<%= role.regex.username %>">
-                        </div>
-                        <div class="inline">
-                            <span class="detailTitle">Email</span>
-                            <input type="text" name="custom_roles[<%= role.name %>][regex][email]" value="<%= role.regex.email %>">
-                        </div>
-                    </fieldset>
-                    <% }); %>
-                </div>
-                <% } else { %>
-                <h3 style="margin-bottom: 1rem;">This client has no custom roles</h3>
-                <% } %>
-                <button type="button" class="btn" id="roleBtn">Add new role</button>
-                <button type="submit" class="btn">Update</button>
-                <div class="loaderContainer" style="display: none;">
-                    <div class="loaderCircle"></div>
-                </div>
-            </form>
+                        <% roles.forEach((role) => { %>
+                        <fieldset class="roleField">
+                            <legend><%= role.name %></legend>
+                            <label for="delete_roles[]" id="delCheckbox"
+                                >Delete Role
+                                <input
+                                    type="checkbox"
+                                    name="delete_roles[]"
+                                    value="<%= role.name %>"
+                                />
+                            </label>
+                            <span class="detailTitle">Regular Expressions</span>
+                            <div class="longLine"></div>
+                            <div class="inline">
+                                <span class="detailTitle">First Name</span>
+                                <input
+                                    type="text"
+                                    name="custom_roles[<%= role.name %>][regex][firstname]"
+                                    value="<%= role.regex.firstname %>"
+                                />
+                            </div>
+                            <div class="inline">
+                                <span class="detailTitle">Last Name</span>
+                                <input
+                                    type="text"
+                                    name="custom_roles[<%= role.name %>][regex][lastname]"
+                                    value="<%= role.regex.lastname %>"
+                                />
+                            </div>
+                            <div class="inline">
+                                <span class="detailTitle">Entry Number</span>
+                                <input
+                                    type="text"
+                                    name="custom_roles[<%= role.name %>][regex][entry_num]"
+                                    value="<%= role.regex.entry_num %>"
+                                />
+                            </div>
+                            <div class="inline">
+                                <span class="detailTitle">Username</span>
+                                <input
+                                    type="text"
+                                    name="custom_roles[<%= role.name %>][regex][username]"
+                                    value="<%= role.regex.username %>"
+                                />
+                            </div>
+                            <div class="inline">
+                                <span class="detailTitle">Email</span>
+                                <input
+                                    type="text"
+                                    name="custom_roles[<%= role.name %>][regex][email]"
+                                    value="<%= role.regex.email %>"
+                                />
+                            </div>
+                        </fieldset>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                    <h3 style="margin-bottom: 1rem;">
+                        This client has no custom roles
+                    </h3>
+                    <% } %>
+                    <button type="button" class="btn" id="roleBtn">
+                        Add new role
+                    </button>
+                    <button type="submit" class="btn">Update</button>
+                    <div class="loaderContainer" style="display: none;">
+                        <div class="loaderCircle"></div>
+                    </div>
+                </form>
+            </div>
+            <% } else { %>
+            <h1 style="text-align: center;">
+                This client doesn't seem to have any data!
+            </h1>
+            <% } %>
         </div>
-        <% } else { %>
-        <h1 style="text-align: center;">This client doesn't seem to have any data!</h1>
-        <% } %>
-    </div>
-    <script>
-        $(document).ready(() => {
-            $('#clientForm').submit((e) => {
-                e.preventDefault();
-                const loader = $('.loaderContainer');
-                loader.fadeIn(100);
-                const message = document.createElement('div');
-                const clientForm = $('#clientForm');
-                $.ajax({
-                    url: clientForm.attr('action'),
-                    type: 'POST',
-                    data: clientForm.serialize(),
-                    success: (res) => {
-                        if (!res.err) {
-                            loader.fadeOut(100);
-                            message.classList.add('messageContainer', 'success');
-                            message.innerText = `${res.msg}`
-                            clientForm.append(message);
-                            setTimeout(() => {
-                                $(message).fadeOut(200);
-                            }, 3000);
-                            location.reload();
-                        }
-                    },
-                    error: (res) => {
-                        loader.fadeOut(100);
-                        if (res.responseJSON.err) {
-                            message.classList.add('messageContainer', 'error');
-                            message.innerText = `${res.responseJSON.msg}, Please try again :(`;
-                            clientForm.append(message);
-                            setTimeout(() => {
-                                $(message).fadeOut(200);
+        <script>
+            $(document).ready(() => {
+                $('#clientForm').submit((e) => {
+                    e.preventDefault();
+                    const loader = $('.loaderContainer');
+                    loader.fadeIn(100);
+                    const message = document.createElement('div');
+                    const clientForm = $('#clientForm');
+                    $.ajax({
+                        url: clientForm.attr('action'),
+                        type: 'POST',
+                        data: clientForm.serialize(),
+                        success: (res) => {
+                            if (!res.err) {
+                                loader.fadeOut(100);
+                                message.classList.add(
+                                    'messageContainer',
+                                    'success'
+                                );
+                                message.innerText = `${res.msg}`;
+                                clientForm.append(message);
+                                setTimeout(() => {
+                                    $(message).fadeOut(200);
+                                }, 3000);
                                 location.reload();
-                            }, 3000);
-                        }
-                    }
+                            }
+                        },
+                        error: (res) => {
+                            loader.fadeOut(100);
+                            if (res.responseJSON.err) {
+                                message.classList.add(
+                                    'messageContainer',
+                                    'error'
+                                );
+                                message.innerText = `${res.responseJSON.msg}, Please try again :(`;
+                                clientForm.append(message);
+                                setTimeout(() => {
+                                    $(message).fadeOut(200);
+                                    location.reload();
+                                }, 3000);
+                            }
+                        },
+                    });
                 });
-            });
 
-            let roleCount = 0;
-            $('#roleBtn').click(() => {
-                const roleDiv = document.createElement('fieldset');
-                roleDiv.classList.add('roleField')
-                roleDiv.innerHTML = `
+                let roleCount = 0;
+                $('#roleBtn').click(() => {
+                    const roleDiv = document.createElement('fieldset');
+                    roleDiv.classList.add('roleField');
+                    roleDiv.innerHTML = `
                 <legend>New Role</legend>
                     <span class="detailTitle">Role Name</span>
                     <input type="text" name="new_roles[${roleCount}][name]" id="name">
@@ -147,11 +195,10 @@
                         <input type="text" name="new_roles[${roleCount}][regex][email]">
                     </div>
                 `;
-                $(roleDiv).insertBefore('button[type="submit"]');
-                roleCount += 1;
+                    $(roleDiv).insertBefore('button[type="submit"]');
+                    roleCount += 1;
+                });
             });
-        });
-    </script>
-</body>
-
+        </script>
+    </body>
 </html>

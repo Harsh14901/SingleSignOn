@@ -51,9 +51,10 @@ const createJWTCookie = (user, res, tokenName = keys.accessTokenName) => {
     // set the cookie with token with the same age as that of token
     res.cookie(tokenName, token, {
         maxAge: exp * 1000, // in milli seconds
-        secure: false, // set to true if your using https
+        secure: true, // set to true if your using https
         httpOnly: true,
         sameSite: 'lax',
+        domain: 'devclub.in',
     });
 };
 
@@ -101,8 +102,12 @@ const verifyToken = async (
         console.log(err);
         // I wasn't able to verify the token as it was invalid
         // clear the tokens
-        res.clearCookie(keys.accessTokenName);
-        res.clearCookie(keys.refreshTokenName);
+        res.clearCookie(keys.accessTokenName, {
+            domain: 'devclub.in',
+        });
+        res.clearCookie(keys.refreshTokenName, {
+            domain: 'devclub.in',
+        });
         throw err;
     }
 };

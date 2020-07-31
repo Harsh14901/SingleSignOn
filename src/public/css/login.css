@@ -5,14 +5,15 @@
 }
 
 .formContainer {
+    box-sizing: border-box;
     width: 40%;
     height: auto;
-    padding: 20px;
     padding-bottom: 0;
     min-width: 300px;
     /* background-color: red; */
     margin: auto;
 }
+
 .formContainer form {
     display: flex;
     flex-direction: column;
@@ -44,6 +45,7 @@
     pointer-events: none;
     left: 10px;
     color: grey;
+    padding: 0;
     font-weight: 400;
     font-size: 14px;
     transition: all 0.1s ease;
@@ -54,7 +56,7 @@
     transform: translateY(-140%) translateX(5px);
     font-size: 12px;
     font-weight: 600;
-    color: var(--input-border-color);
+    color: var(--theme-color);
     background: white;
 }
 
@@ -106,8 +108,31 @@ input:hover {
 #signupBtn {
     color: var(--theme-color);
     margin-left: 5px;
+    margin-top: 10px;
     font-weight: 600;
     text-decoration: underline;
+}
+
+#verify {
+    color: white;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.btnRow {
+    margin: 0 auto 2rem;
+    width: min-content;
+    min-width: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.5rem;
+}
+
+.btnRow > a {
+    box-sizing: border-box;
+    padding: 15px 10px;
+    width: 150px;
+    margin: auto;
 }
 
 .socialLoginContainer {
@@ -172,9 +197,27 @@ fieldset legend {
     border: 1px solid orangered;
     padding: 0.5rem;
     margin: 1rem auto;
+    position: relative;
     box-shadow: unset;
+}
+.kerberosBtn .tooltip {
+    background-color: var(--error);
+    color: white;
+    font-size: 10px;
+    padding: 5px;
+    width: auto;
+    position: absolute;
+    left: 50%;
+    top: -20%;
+    border-radius: 10px;
+    opacity: 1;
+    transition: 0.2s;
 }
 
 .kerberosBtn img {
     width: 40px;
+}
+
+.messageContainer {
+    padding: 10px;
 }

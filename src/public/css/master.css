@@ -5,16 +5,107 @@
     --footer: rgba(0, 0, 0, 0.8);
 }
 
+html,
+body {
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+}
+
 * {
     margin: 0px;
     padding: 0px;
     outline: none;
     font-family: 'Raleway', sans-serif;
 }
+/* HEADER LOADER (WHILE WAITING FOR REQUEST FOR CHECKING USER IS LOGGED IN OR NOT) */
+.rootPageLoader {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.rootPageLoader .pageTitle {
+    margin: 0px;
+    margin-bottom: 10px;
+}
+.rootPageLoaderTagLine {
+    font-style: italic;
+    margin-top: 15px;
+    font-weight: 200;
+    font-size: 20px;
+}
+.rootPageLoaderAnimationContainer {
+    width: 150px;
+    height: 20px;
+    margin-top: 40px;
+    position: relative;
+}
+.rootPageLoaderAnimator {
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    border-radius: 4px;
+    left: 0px;
+    background-color: var(--theme-color);
+    animation: slideAnimation 2.5s infinite;
+}
+@keyframes slideAnimation {
+    0% {
+        width: 10px;
+        left: 0px;
+    }
+    25% {
+        width: 100px;
+        left: 25px;
+    }
+    50% {
+        left: 140px;
+        width: 10px;
+    }
+    75% {
+        width: 100px;
+        left: 25px;
+    }
+    100% {
+        width: 10px;
+        left: 0px;
+    }
+}
+@-webkit-keyframes slideAnimation {
+    0% {
+        width: 10px;
+        left: 0px;
+    }
+    25% {
+        width: 40px;
+        left: 55px;
+    }
+    50% {
+        right: 0px;
+        width: 10px;
+    }
+    75% {
+        width: 40px;
+        left: 55px;
+    }
+    100% {
+        width: 10px;
+        left: 0px;
+    }
+}
+
 /* HEADER */
 .header {
     width: 100%;
-    height: 60px;
     line-height: 60px;
     background-color: var(--theme-color);
     position: fixed;
@@ -22,26 +113,41 @@
     top: 0px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
     color: white;
-    display: flex;
-    flex-direction: row;
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
 }
+
+.mainNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+/* #devclubIcon {
+    background-color: transparent;
+    height: 25px;
+    transform: translateY(4px);
+} */
 .headerTitle {
     margin-left: 20px;
 }
+.headerTitle a h2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 .headerTitle span {
-    font-weight: 200;
+    margin-left: 6px;
+    font-size: 20px;
+    font-weight: 400;
 }
 .navCont {
+    height: fit-content;
     display: flex;
     margin-left: auto;
-    margin-right: 20px;
-    justify-content: space-around;
+    margin-right: 10px;
     align-items: center;
-    height: 60px;
-    width: auto;
-    padding: 0px 20px;
 }
 .headerBtn {
     height: 20px;
@@ -54,10 +160,67 @@
     margin: 0px 10px;
 }
 .headerBtn:hover {
-    background-color: rgba(240, 240, 240, 0.15);
+    color: var(--theme-color);
+    border-radius: 4px;
+    background-color: white;
 }
 
-@media screen and (max-width: 705px) {
+#menuBtn {
+    cursor: pointer;
+    display: none;
+}
+
+.collapseNav {
+    display: flex;
+    flex-direction: row;
+}
+
+#collapsedHomeButtonContainer {
+    cursor: pointer;
+    display: none;
+    background-color: transparent;
+    outline: none;
+    margin-right: 20px;
+    transition: 0.2s;
+}
+#collapsedHomeButtonContainer:hover {
+    opacity: 0.8;
+}
+#collapsedHomeButtonIcon {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.collapse {
+    display: none;
+    padding-bottom: 10px;
+    flex-direction: column;
+}
+
+.collapse .headerBtn {
+    margin: 0 10px;
+    border: none;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+@media screen and (max-width: 805px) {
+    .collapseNav {
+        display: none;
+    }
+
+    #menuBtn {
+        display: block;
+    }
+    #collapsedHomeButtonContainer {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 500px) {
     .headerTitle span {
         display: none;
     }
@@ -65,6 +228,7 @@
 
 /* FOOTER */
 .footer {
+    /* width: 100%; */
     min-height: 200px;
     height: auto;
     left: 0px;
@@ -81,13 +245,16 @@
     width: calc(50% - 80px);
     padding: 40px;
     min-width: 350px;
+    max-width: 100vw;
     display: flex;
     justify-content: center;
 }
 .footerLogo {
     background-color: #e6e6e6;
-    padding: 60px;
+    padding: 40px;
     width: 80%;
+    max-height: 300px;
+    max-width: 300px;
     border-radius: 10px;
 }
 .footerSectionDetails {
@@ -102,13 +269,33 @@
     margin-left: 20px;
 }
 .projectList li {
-    margin-top: 4px;
-    font-weight: 200;
+    margin: 8px 0px;
+    transition: 0.1s ease-out;
+    position: relative;
+    width: 140px;
+}
+.projectList li::before {
+    content: '';
+    background-color: #f05431;
+    width: 0px;
+    height: 2px;
+    position: absolute;
+    left: 0px;
+    bottom: -4px;
     transition: 0.1s ease-out;
 }
-.projectList li:hover {
-    color: #f05431;
-    letter-spacing: 1.5px;
+.projectList li:hover::before {
+    width: 60px;
+}
+
+.credits {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.credits {
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 /* ROOT CONTAINER */
@@ -118,6 +305,14 @@
     display: flex;
     padding-bottom: 80px;
     flex-direction: column;
+}
+/* ADD THIS CLASS TO MAKE PAGE ATLEAST EQUAL TO WINDOW HEIGHT */
+.rootContainerFull {
+    min-height: calc(100% - 180px);
+    justify-content: center;
+}
+.rootContainerFull .pageTitle {
+    margin: 0px auto;
 }
 
 /* GENERAL */
@@ -157,10 +352,27 @@ a {
     margin: 30px auto;
     text-align: center;
 }
+
+.textParagraph span {
+    display: block;
+}
+/* To put two buttons horizontally like done on index page (with user logged in) */
+.btnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+.btnContainer .btn {
+    margin: 5px 15px;
+}
+
 .btn {
     padding: 15px 40px;
     font-size: 11px;
-    font-weight: 200;
+    font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 5px;
@@ -177,7 +389,7 @@ a {
     text-align: center;
     font-size: 12px;
     letter-spacing: 1.2px;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 0px;
 }
 .redBtn {
@@ -186,18 +398,27 @@ a {
 .btn:hover {
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);
 }
+.invertBtn {
+    color: var(--theme-color);
+    background-color: white;
+}
+.actionBtn {
+    margin-top: 140px;
+}
 
 .hLink {
     text-decoration: underline;
-    color: royalblue;
+    color: var(--theme-color);
     font-weight: 600;
 }
 .messageContainer {
+    box-sizing: border-box;
     width: 300px;
+    padding: 0px 15px;
     text-align: center;
     color: white;
     margin: 20px auto;
-    line-height: 40px;
+    line-height: 30px;
     border-radius: 5px;
     transition: 0.2s ease-out;
 }

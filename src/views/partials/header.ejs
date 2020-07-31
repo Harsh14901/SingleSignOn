@@ -1,62 +1,141 @@
+<div class="rootPageLoader">
+    <div class="pageTitle">
+        Loading ...
+    </div>
+    <div class="rootPageLoaderTagline">
+        Crunching some data, please wait
+    </div>
+    <div class="rootPageLoaderAnimationContainer">
+        <div class="rootPageLoaderAnimator"></div>
+    </div>
+</div>
 <nav>
     <div class="header">
-        <div class="headerTitle">
-            <h2>SSO <span>@ Devclub IIT Delhi</span></h2>
-        </div>
-        <div class="navCont">
-            <a href="/">
-                <div class="headerBtn">
-                    Home
+        <div class="mainNav">
+            <div class="headerTitle">
+                <a href="/">
+                    <h2>
+                        <!-- <img
+                            src="/images/dcLogoWhite.png"
+                            alt=""
+                            id="devclubIcon"
+                        /> -->
+                        CASI
+                        <span>@ DevClub IIT Delhi</span>
+                    </h2>
+                </a>
+            </div>
+            <div class="navCont">
+                <div class="collapseNav">
+                    <a href="/">
+                        <div class="headerBtn">
+                            Home
+                        </div>
+                    </a>
+                    <a href="/about">
+                        <div class="headerBtn">
+                            About
+                        </div>
+                    </a>
+                    <a href="/client" class="clientBtn" style="display: none;">
+                        <div class="headerBtn">
+                            Client
+                        </div>
+                    </a>
+                    <a
+                        href="/user/login"
+                        class="LoginBtn"
+                        style="display: none;"
+                    >
+                        <div class="headerBtn">
+                            Login
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <div id="collapsedHomeButtonContainer">
+                    <a href="/">
+                        <img
+                            src="/images/homeIcon.svg"
+                            id="collapsedHomeButtonIcon"
+                            alt="Home"
+                        />
+                    </a>
+                </div>
+                <button
+                    class="hamburger hamburger--collapse"
+                    type="button"
+                    id="menuBtn"
+                >
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="collapse">
             <a href="/about">
                 <div class="headerBtn">
                     About
                 </div>
             </a>
-            <a href="/client" id="clientBtn" style="display: none;">
+            <a href="/client" class="clientBtn" style="display: none;">
                 <div class="headerBtn">
                     Client
                 </div>
             </a>
-            <script>
-                $(document).ready(() => {
-                    const userDetailSuccess = (user) => {
-                        $('#headerLoginBtn .headerBtn').html('Logout');
-                        $('#headerLoginBtn').attr('href', '/');
-                        $('#headerLoginBtn').css('display', 'block');
-                        $('#headerLoginBtn').click(() => {
-                            logoutUser();
-                        });
-                    };
-
-                    const userDetailFailure = () => {
-                        $('#headerLoginBtn').css('display', 'block');
-                        if (window.location.href.indexOf('register') > 0) {
-                            $('#headerLoginBtn').css('display', 'none');
-                        }
-                        if (window.location.href.indexOf('login') > 0) {
-                            const query = window.location.search;
-                            $('#headerLoginBtn').attr(
-                                'href',
-                                `/user/login${query}`
-                            );
-                        }
-                    };
-                    getUserDetails(userDetailSuccess, userDetailFailure);
-
-                    getPrivilege((priv) => {
-                        if (priv >= 2) {
-                            $('#clientBtn').css('display', 'block');
-                        }
-                    });
-                });
-            </script>
-            <a href="/user/login" id="headerLoginBtn" style="display: none;">
+            <a href="/user/login" class="LoginBtn" style="display: none;">
                 <div class="headerBtn">
                     Login
                 </div>
             </a>
         </div>
     </div>
+    <script>
+        $(document).ready(() => {
+            const closeRootLoaderPage = () => {
+                $('.rootPageLoader').animate(
+                    {
+                        opacity: '0',
+                        top: '20px',
+                    },
+                    700,
+                    () => {
+                        $('.rootPageLoader').css('display', 'none');
+                    }
+                );
+            };
+            const userDetailSuccess = (user) => {
+                $('.LoginBtn .headerBtn').html('Logout');
+                $('.LoginBtn').attr('href', '/');
+                $('.LoginBtn').css('display', 'block');
+                $('.LoginBtn').click(() => {
+                    logoutUser();
+                });
+                closeRootLoaderPage();
+            };
+
+            const userDetailFailure = () => {
+                $('.LoginBtn').css('display', 'block');
+                if (window.location.href.indexOf('register') > 0) {
+                    $('.LoginBtn').css('display', 'none');
+                }
+                if (window.location.href.indexOf('login') > 0) {
+                    const query = window.location.search;
+                    $('.LoginBtn').attr('href', `/user/login${query}`);
+                }
+                closeRootLoaderPage();
+            };
+            getUserDetails(userDetailSuccess, userDetailFailure);
+
+            getPrivilege((priv) => {
+                if (priv >= 2) {
+                    $('#clientBtn').css('display', 'block');
+                }
+            });
+            $('#menuBtn').click(function () {
+                $('.collapse').fadeToggle(200);
+                $(this).toggleClass('is-active');
+            });
+        });
+    </script>
 </nav>

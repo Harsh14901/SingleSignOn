@@ -1,5 +1,54 @@
-<form action="/auth/password/reset" method="POST">
-    <input name="email">
-    <input name="newPass">
-    <button type="submit">Submit</button>
-</form>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <%- include('partials/assets'); %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>CASI | Forgot Password</title>
+</head>
+
+<body>
+    <%- include('partials/header'); %>
+    <div class="rootContainer rootContainerFull">
+        <div class="pageTitle">Forgot Password</div>
+        <div class="miniLine"></div>
+        <% if (locals.message) { %>
+        <% if (error) { %>
+        <div class="messageContainer error">
+            <% } else { %>
+            <div class="messageContainer success">
+                <% } %>
+                <%= message %>
+            </div>
+            <% } %>
+            <div class="formContainer" style="margin: 10px auto;">
+                <form action="/auth/password/reset" method="POST">
+                    <div class="input-group">
+                        <input type="email" name="email" required />
+                        <label for="email">E-Mail</label>
+                        <span class="helpText">Please enter a valid E-Mail</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="newPass" required autocomplete="new-password" />
+                        <label for="password">New Password</label>
+                    </div>
+                    <button type="submit" class="btn">Reset Password</button>
+                </form>
+                <p class="textParagraph">
+                    <i>Wanna try again? <a href="/user/login" class="hLink">Login!</a></i>
+                </p>
+            </div>
+        </div>
+        <%- include('partials/footer'); %>
+        <script src="/js/forms.js"></script>
+        <script>
+            if ($('.messageContainer').text().length > 0) {
+                setTimeout(() => {
+                    $('.messageContainer').fadeOut(300);
+                }, 3000);
+            }
+        </script>
+</body>
+
+</html>

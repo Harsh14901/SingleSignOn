@@ -11,6 +11,9 @@
     margin: 20px auto;
     margin-bottom: 40px;
     padding: 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 .detailTitle {
     color: rgba(40, 116, 255, 0.872);
@@ -24,17 +27,6 @@
     height: 3px;
     background-color: black;
     margin: 20px 0px;
-}
-.btnContainer {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-}
-.btnContainer .btn {
-    margin: 5px 15px;
 }
 .loaderContainer {
     margin: 20px auto;
@@ -65,4 +57,7 @@
     to {
         transform: rotate(180deg);
     }
+}
+#homeBackgroundImage {
+    width: 100%;
 }

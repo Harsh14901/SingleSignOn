@@ -48,7 +48,8 @@ router.post('/login', async (req, res, next) => {
 
         if (!user.isverified) {
             return res.render('login', {
-                message: 'Your account is not verified',
+                message:
+                    'Your account is not verified. Can\'t login? <a href="/auth/email/verify" id="verify">Verify Email</a>',
                 error: true,
                 serviceURL,
             });

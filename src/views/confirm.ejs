@@ -1,134 +1,161 @@
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <%- include('partials/assets'); %>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/register.css" />
-    <title>Confirm account</title>
-    <script>
-        $(document).ready(() => {
-            const getParams = function (url) {
-                const params = {};
-                const parser = document.createElement('a');
-                parser.href = url;
-                const query = parser.search.substring(1);
-                const vars = query.split('&');
-                for (let i = 0; i < vars.length; i++) {
-                    const pair = vars[i].split('=');
-                    params[pair[0]] = decodeURIComponent(pair[1]);
-                }
-                return params;
-            };
-            const deleteAcct = () => {
-                $.ajax({
-                    type: 'POST',
-                    url: '/profile/delete',
-                    success: (res) => {
-                        window.location.href = '/';
-                    },
-                    error: (res) => {
-                        const { err, message } = res.responseJSON;
-                        console.log(message);
-                    },
+    <head>
+        <meta charset="UTF-8" />
+        <%- include('partials/assets'); %>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/register.css" />
+        <title>CASI | Confirm account</title>
+        <script>
+            $(document).ready(() => {
+                const getParams = function (url) {
+                    const params = {};
+                    const parser = document.createElement('a');
+                    parser.href = url;
+                    const query = parser.search.substring(1);
+                    const vars = query.split('&');
+                    for (let i = 0; i < vars.length; i++) {
+                        const pair = vars[i].split('=');
+                        params[pair[0]] = decodeURIComponent(pair[1]);
+                    }
+                    return params;
+                };
+                const deleteAcct = () => {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/profile/delete',
+                        success: (res) => {
+                            window.location.href = '/';
+                        },
+                        error: (res) => {
+                            const { err, message } = res.responseJSON;
+                            console.log(message);
+                        },
+                    });
+                };
+                $('#displayBtn').click(() => {
+                    $('#mainForm').fadeIn(300);
+                    $('#displayBtn').fadeOut(100);
                 });
-            };
-            $('#displayBtn').click(() => {
-                $('#mainForm').fadeIn(300);
-                $('#displayBtn').fadeOut(100);
-            });
 
-            $('#delBtn').click(() => {
-                deleteAcct();
-                window.location.href = '/';
-            });
+                $('#delBtn').click(() => {
+                    deleteAcct();
+                    window.location.href = '/';
+                });
 
-            $('#mainForm').submit((e) => {
-                e.preventDefault();
-                $.ajax({
-                    type: 'POST',
-                    url: '/profile/settings',
-                    data: {
-                        firstName: $('#firstName').val(),
-                        lastName: $('#lastName').val(),
-                        newUsername: $('#newUsername').val(),
-                    },
-                    complete: (a, b) => {
-                        const { state } = getParams(location.href);
-                        if (state) {
-                            window.location =
-                                '/redirecting?serviceURL=' + state;
-                        } else window.location = '/';
-                    },
+                $('#mainForm').submit((e) => {
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/profile/settings',
+                        data: {
+                            firstName: $('#firstName').val(),
+                            lastName: $('#lastName').val(),
+                            newUsername: $('#newUsername').val(),
+                        },
+                        complete: (a, b) => {
+                            const { state } = getParams(location.href);
+                            if (state) {
+                                window.location =
+                                    '/redirecting?serviceURL=' + state;
+                            } else window.location = '/';
+                        },
+                    });
                 });
             });
-        });
-    </script>
-</head>
+        </script>
+    </head>
 
-<body>
-    <nav>
-        <div class="header">
-            <div class="headerTitle">
-                <h2>SSO <span>@ Devclub IIT Delhi</span></h2>
-            </div>
-            <div class="navCont">
-                <a href="/">
-                    <div class="headerBtn">
-                        Home
-                    </div>
-                </a>
-                <a href="/about">
-                    <div class="headerBtn">
-                        About
-                    </div>
-                </a>
-            </div>
-        </div>
-    </nav>
-    <div class="rootContainer">
-        <div class="pageTitle">
-            Confirm Acccount
-            <div class="miniLine"></div>
-        </div>
-        <div class="textParagraph">
-            Are you sure you want to create a new account?
-        </div>
-        <div class="inputRow" style="width: 40%; min-width: 300px; margin: auto;">
-            <button name="ok" type="button" class="btn" id="displayBtn">
-                Yes!
-            </button>
-            <button name="reject" type="button" class="btn redBtn" id="delBtn">
-                No, Take me back!
-            </button>
-        </div>
-        <div id="mainForm" class="formContainer" style="display: none;">
-            <form action="/profile/settings" method="POST">
-
-                <div class="longLine"></div>
-                <div class="inputRow">
-                    <div class="input-group">
-                        <input type="text" name="firstName" id="firstName" tabindex="1" />
-                        <label for="fname">First Name</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="lastName" id="lastName" tabindex="2" />
-                        <label for="lname">Last Name</label>
-                    </div>
+    <body>
+        <nav>
+            <div class="header">
+                <div class="headerTitle">
+                    <h2>SSO <span>@ Devclub IIT Delhi</span></h2>
                 </div>
-                <div class="input-group">
-                    <input type="text" name="newUsername" id="newUsername" tabindex="3" pattern=".{6,30}" />
-                    <label for="username">Username</label>
-                    <span class="helpText">Username must be 6 to 30 characters long</span>
+                <div class="navCont">
+                    <a href="/">
+                        <div class="headerBtn">
+                            Home
+                        </div>
+                    </a>
+                    <a href="/about">
+                        <div class="headerBtn">
+                            About
+                        </div>
+                    </a>
                 </div>
-                <button type="submit" class="btn">
-                    Create my account!
+            </div>
+        </nav>
+        <div class="rootContainer rootContainerFull">
+            <div class="pageTitle">
+                Confirm Acccount
+                <div class="miniLine"></div>
+            </div>
+            <div class="textParagraph">
+                Are you sure you want to create a new account?
+            </div>
+            <div
+                class="inputRow"
+                style="width: 40%; min-width: 300px; margin: auto;"
+            >
+                <button name="ok" type="button" class="btn" id="displayBtn">
+                    Yes!
                 </button>
-            </form>
+                <button
+                    name="reject"
+                    type="button"
+                    class="btn redBtn"
+                    id="delBtn"
+                >
+                    No, Take me back!
+                </button>
+            </div>
+            <div
+                id="mainForm"
+                class="formContainer"
+                style="display: none; margin: 20px auto;"
+            >
+                <form action="/profile/settings" method="POST">
+                    <div class="longLine"></div>
+                    <div class="inputRow">
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                name="firstName"
+                                id="firstName"
+                                tabindex="1"
+                            />
+                            <label for="fname">First Name</label>
+                        </div>
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                name="lastName"
+                                id="lastName"
+                                tabindex="2"
+                            />
+                            <label for="lname">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            name="newUsername"
+                            id="newUsername"
+                            tabindex="3"
+                            pattern=".{6,30}"
+                        />
+                        <label for="username">Username</label>
+                        <span class="helpText"
+                            >Username must be 6 to 30 characters long</span
+                        >
+                    </div>
+                    <button type="submit" class="btn">
+                        Create my account!
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
-    <%- include('partials/footer'); %>
-    <script src="/js/forms.js"></script>
-</body>
-
+        <%- include('partials/footer'); %>
+        <script src="/js/forms.js"></script>
+    </body>
 </html>

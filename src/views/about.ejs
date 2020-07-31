@@ -3,27 +3,60 @@
         <meta charset="UTF-8" />
         <%- include('partials/assets'); %>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>About</title>
+        <title>CASI | About</title>
     </head>
+
     <body>
         <%- include('partials/header'); %>
-        <div class="rootContainer">
+        <div class="rootContainer rootContainerFull">
             <div class="pageTitle">
                 About
             </div>
             <div class="miniLine"></div>
             <p class="textParagraph">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto
-                ab saepe veniam, nihil delectus quidem nobis commodi praesentium
-                debitis voluptate magnam eligendi odio perferendis repellendus
-                eos est cumque sapiente impedit?
+                <b>Common Account Sign In</b>, or as we like to call it
+                <b>"CASI"</b>, is a unified solution aimed at providing a
+                <i>seamless, accessible and convenient experience</i> to all our
+                users. All you need is one account for any and all services that
+                our team provides.
+                <br />
+                <br />
+                You can even login using your other social accounts so that you
+                don't have to remember an extra password <b>; )</b>
+                <br />
+                <i>
+                    (Because we all know how that goes)
+                </i>
+                <br />
+                <br />
+                <b>
+                    Feel free to look around and check down below to explore
+                    some of our services
+                </b>
             </p>
-            <a
-                href="https://github.com/devclub-iitd/SingleSignOn"
-                target="_blank"
-            >
+            <div class="btnContainer" style="margin-top: 40px;">
+                <a
+                    href="https://github.com/devclub-iitd/SingleSignOn"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                >
+                    <div class="btn fixedBtn invertBtn">
+                        github repo
+                    </div>
+                </a>
+                <a
+                    href="https://devclub.in/#/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                >
+                    <div class="btn fixedBtn invertBtn">
+                        Contact us
+                    </div>
+                </a>
+            </div>
+            <a href="/user/login">
                 <div class="btn fixedBtn">
-                    github repo
+                    Login Now!
                 </div>
             </a>
         </div>
