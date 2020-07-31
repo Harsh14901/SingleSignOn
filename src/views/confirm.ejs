@@ -123,6 +123,7 @@
                                 name="firstName"
                                 id="firstName"
                                 tabindex="1"
+                                value="<%= user.firstname %>"
                             />
                             <label for="fname">First Name</label>
                         </div>
@@ -132,6 +133,7 @@
                                 name="lastName"
                                 id="lastName"
                                 tabindex="2"
+                                value="<%= user.lastname %>"
                             />
                             <label for="lname">Last Name</label>
                         </div>
@@ -143,6 +145,7 @@
                             id="newUsername"
                             tabindex="3"
                             pattern=".{6,30}"
+                            value="<%= user.email.split('@')[0] %>"
                         />
                         <label for="username">Username</label>
                         <span class="helpText"

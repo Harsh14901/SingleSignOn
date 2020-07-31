@@ -170,12 +170,17 @@ router.get(
         passport.authenticate(req.params.provider, {
             session: false,
             failureRedirect: '/user/login',
+            failWithError: true,
         })(req, res, next);
+    },
+    (err, req, res, next) => {
+        if (err) return res.redirect('/user/login');
+        next();
     },
     async (req, res) => {
         createJWTCookie(req.user, res);
         if (req.authInfo.message === profileNotFoundMsg) {
-            return res.render('confirm');
+            return res.render('confirm', { user: req.user });
         }
         if (req.authInfo.message === accountExists) {
             return res.render('settings', {

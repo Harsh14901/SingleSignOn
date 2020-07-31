@@ -175,6 +175,10 @@ app.use('/auth', auth);
 app.use('/profile', profile);
 app.use('/client', client);
 
+app.get('/privacy-policy', (req, res) => {
+    res.render('privacy_policy');
+});
+
 const port = process.env.PORT;
 
 app.listen(port, () => {
