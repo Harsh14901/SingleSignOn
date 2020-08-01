@@ -155,6 +155,7 @@ router.get('/facebook', (req, res, next) => {
     passport.authenticate('facebook', {
         authType: 'rerequest',
         state: req.query.serviceURL,
+        scope: 'email',
     })(req, res, next);
 });
 

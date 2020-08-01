@@ -51,10 +51,10 @@ const createJWTCookie = (user, res, tokenName = keys.accessTokenName) => {
     // set the cookie with token with the same age as that of token
     res.cookie(tokenName, token, {
         maxAge: exp * 1000, // in milli seconds
-        secure: true, // set to true if your using https
+        // secure: true, // set to true if your using https
         httpOnly: true,
         sameSite: 'lax',
-        domain: 'devclub.in',
+        // domain: 'devclub.in',
     });
 };
 
