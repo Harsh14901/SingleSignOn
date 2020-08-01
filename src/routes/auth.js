@@ -162,6 +162,7 @@ router.get('/facebook', (req, res, next) => {
 router.get('/github', (req, res, next) => {
     passport.authenticate('github', {
         state: req.query.serviceURL,
+        scope: 'user:email',
     })(req, res, next);
 });
 
